@@ -8,13 +8,16 @@ public class Movement : MonoBehaviour
     public static float speed=15;
     //reference to rigidbody2d component of player
     private Rigidbody2D rb2d;
-    public Vector2 maxSpeed= new Vector2 (30,0);
     private SpriteRenderer mySpriteRenderer;
+    Animator animator;
+    public int maxV = 8;
+
     
     void Start()
     {
         //get and store reference to RB2D of player 
-        rb2d = GetComponent<Rigidbody2D> ();
+        rb2d = GetComponent<Rigidbody2D>();
+        animator= GetComponent<Animator>();
         mySpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -29,15 +32,39 @@ public class Movement : MonoBehaviour
         //Add force based on movement vector
         if(moveHorizontral<0){
             mySpriteRenderer.flipX = true;
+            animator.SetBool("running", true);
         }
         else if(moveHorizontral>0){
             mySpriteRenderer.flipX = false;
-        }
-        if(movement.x*speed>=maxSpeed.x){
-            rb2d.AddForce(maxSpeed);
+            animator.SetBool("running", true);
         }
         else{
-            rb2d.AddForce(movement*speed);        
+            animator.SetBool("running", false);
+            Vector2 v= rb2d.velocity;
+            if(v.x>=1){
+                v.x--;
+            }
+            rb2d.velocity= v;
+        }
+        if(rb2d.velocity.x >= maxV || rb2d.velocity.x <= -1*maxV){
+            Vector2 v = rb2d.velocity;
+            if(v.x < 0){
+                v.x= maxV * -1;
+            }
+            else{
+                v.x= maxV;
+            }
+            rb2d.velocity = v;
+
+        }
+        else{
+            if(animator.GetCurrentAnimatorStateInfo(0).IsName("inAir")){
+                Vector2 jumpMultiplier = new Vector2((float) .5 ,1);
+                rb2d.AddForce(movement*speed*jumpMultiplier);        
+            }
+            else{
+                rb2d.AddForce(movement*speed);        
+            }
         }
         
         
