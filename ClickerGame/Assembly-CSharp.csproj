@@ -45,10 +45,12 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>     <Compile Include="Assets\Scripts\Attack.cs" />
+     <Compile Include="Assets\Scripts\Coin.cs" />
      <Compile Include="Assets\Scripts\Jump.cs" />
      <Compile Include="Assets\Scripts\Money.cs" />
      <Compile Include="Assets\Scripts\Movement.cs" />
      <Compile Include="Assets\Scripts\ScreenEdgeColliders.cs" />
+     <Compile Include="Assets\Scripts\Shop_Buttons.cs" />
      <None Include="Assets\Art\Extra animations and enemies\Spritesheets\alienPink.xml" />
      <None Include="Assets\Art\Extra animations and enemies\Spritesheets\alienYellow.xml" />
      <None Include="Assets\Art\Extra animations and enemies\Spritesheets\alienGreen.xml" />
@@ -65,6 +67,7 @@
      <None Include="Assets\Art\Base pack\Items\items_spritesheet.xml" />
      <None Include="Assets\Art\Base pack\Enemies\enemies_spritesheet.txt" />
      <None Include="Assets\Art\Extra animations and enemies\Spritesheets\enemies.xml" />
+     <None Include="Assets\Pixel Font - Tripfive\_README.txt" />
      <None Include="Assets\Art\Base pack\Player\p1_spritesheet.txt" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Users/caden/OneDrive/Documents/GitHub/clickerGame/ClickerGame/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

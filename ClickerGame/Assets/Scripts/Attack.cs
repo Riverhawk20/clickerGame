@@ -9,6 +9,7 @@ public class Attack : MonoBehaviour
     Animator animator;
     [SerializeField] GameObject player;
     [SerializeField] GameObject vault;
+    [SerializeField] GameObject Coin;
     private SpriteRenderer mySpriteRenderer;
 
 
@@ -42,7 +43,9 @@ public class Attack : MonoBehaviour
             if(Time.time - attackStart > .34){
                 Money.cash += Money.CPH;
                 attackStart=Time.time;
-
+                if(Random.Range(1,100)<=Money.coinChance){
+                    Instantiate(Coin, vault.transform);
+                }
             }
         }
     }
