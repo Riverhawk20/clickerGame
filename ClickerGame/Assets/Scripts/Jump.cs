@@ -30,6 +30,12 @@ public class Jump : MonoBehaviour
              if(v.x>=1){
                 v.x /= (float) 1.02;
             }
+            if(v.x>=5){
+                v.x=5;
+            }
+            else if (v.x<=-5){
+                v.x=-5;
+            }
             rb2d.velocity=v;
         }
         if ((Input.GetKeyDown("space")||Input.GetKeyDown("w") || Input.GetKeyDown("up"))&&!isJumping)
@@ -52,9 +58,10 @@ public class Jump : MonoBehaviour
 
     void OnCollisionEnter2D (Collision2D col)
     {
-        if(col.gameObject.tag == "Vault"||col.gameObject.tag=="Ground"){
+        if(col.gameObject.tag=="Ground" || col.gameObject.tag == "Vault"){
             isJumping=false;
             forceApplied=false;
+            animator.SetBool("onVault",false);
             animator.SetBool("grounded",true);
             animator.SetBool("jumping", false);
             animator.SetBool("falling", false);

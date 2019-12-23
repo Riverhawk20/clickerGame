@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 2094974587206574067}
   - component: {fileID: 2094974587206574076}
   - component: {fileID: 2094974587206574077}
-  - component: {fileID: 2094974587206574078}
   - component: {fileID: 2094974587206574079}
-  m_Layer: 0
+  - component: {fileID: -9172065981383768622}
+  - component: {fileID: -3412824886416109863}
+  m_Layer: 8
   m_Name: Coin
   m_TagString: Money
   m_Icon: {fileID: 0}
@@ -29,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 2094974587206574066}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.04, y: 2, z: -5}
-  m_LocalScale: {x: 0.2644012, y: 0.2644012, z: 0.02644012}
+  m_LocalScale: {x: 1, y: 1, z: 0.02644012}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -104,22 +105,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &2094974587206574078
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2094974587206574066}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.0000016877308, y: -0.06618774}
-  serializedVersion: 2
-  m_Radius: 1.1602871
 --- !u!114 &2094974587206574079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,3 +118,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moving: 0
+  player: {fileID: 6776171681883356781, guid: 4dff066d61cfc8f42891b403996ef639, type: 3}
+--- !u!95 &-9172065981383768622
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094974587206574066}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4f6be86a1cf3ce6419de3472ad503390, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!58 &-3412824886416109863
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094974587206574066}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 8e264e1cb4feef949bf1ff32dd8f632b, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0055318326, y: -0.020382702}
+  serializedVersion: 2
+  m_Radius: 0.2925557

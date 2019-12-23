@@ -5,12 +5,13 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     //variable to store the player's movement speed
-    public static float speed=15;
+    public static float speed=25;
     //reference to rigidbody2d component of player
     private Rigidbody2D rb2d;
     private SpriteRenderer mySpriteRenderer;
     Animator animator;
     public int maxV = 8;
+    Vector2 oldV;
 
     
     void Start()
@@ -29,6 +30,7 @@ public class Movement : MonoBehaviour
         float moveHorizontral = Input.GetAxis("Horizontal");
         //create movement vector
         Vector2 movement = new Vector2 (moveHorizontral,0);
+        Vector2 v= rb2d.velocity;
         //Add force based on movement vector
         if(moveHorizontral<0){
             mySpriteRenderer.flipX = true;
@@ -40,16 +42,14 @@ public class Movement : MonoBehaviour
         }
         else{
             animator.SetBool("running", false);
-            Vector2 v= rb2d.velocity;
             if(v.x>=1){
                 v.x--;
             }
             rb2d.velocity= v;
         }
         if(rb2d.velocity.x >= maxV || rb2d.velocity.x <= -1*maxV){
-            Vector2 v = rb2d.velocity;
             if(v.x < 0){
-                v.x= maxV * -1;
+                v.x = maxV * -1;
             }
             else{
                 v.x= maxV;
@@ -66,6 +66,8 @@ public class Movement : MonoBehaviour
                 rb2d.AddForce(movement*speed);        
             }
         }
+        oldV= rb2d.velocity;
+    
         
         
     }
@@ -83,5 +85,9 @@ public class Movement : MonoBehaviour
             Vector2 repel = new Vector2 (200*k, -50);
             rb2d.AddForce(repel);
         }
+        if(col.gameObject.tag=="Money"){
+            rb2d.velocity=oldV;
+        }
+      
     }
 }

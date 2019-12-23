@@ -51,6 +51,7 @@
      <Compile Include="Assets\Scripts\Movement.cs" />
      <Compile Include="Assets\Scripts\ScreenEdgeColliders.cs" />
      <Compile Include="Assets\Scripts\Shop_Buttons.cs" />
+     <Compile Include="Assets\Scripts\Vault.cs" />
      <None Include="Assets\Art\Extra animations and enemies\Spritesheets\alienPink.xml" />
      <None Include="Assets\Art\Extra animations and enemies\Spritesheets\alienYellow.xml" />
      <None Include="Assets\Art\Extra animations and enemies\Spritesheets\alienGreen.xml" />
