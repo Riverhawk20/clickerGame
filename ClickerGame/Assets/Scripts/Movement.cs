@@ -45,6 +45,9 @@ public class Movement : MonoBehaviour
             if(v.x>=1){
                 v.x--;
             }
+            else if(v.x<=-1){
+                v.x++;
+            }
             rb2d.velocity= v;
         }
         if(rb2d.velocity.x >= maxV || rb2d.velocity.x <= -1*maxV){

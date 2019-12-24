@@ -6,7 +6,7 @@ public class Coin : MonoBehaviour
 {
     private Rigidbody2D rb2d;    
     public bool moving=true;
-    int value;
+    double value;
     float spawnTime;
     private SpriteRenderer mySpriteRenderer;
     public string state;
@@ -25,7 +25,14 @@ public class Coin : MonoBehaviour
         }
         Vector2 added = new Vector2(Random.Range(120,240)*xDirection,Random.Range(120,240));
         rb2d.AddForce(added);
-        switch (Money.vaultLevel){
+        //If lucky Coin
+        if(Random.Range(1,100) <= Money.luckyChance){
+            value=Money.luckyValue;
+            animator.SetBool("lucky", true);
+            state="lucky";
+        }
+        else{
+            switch (Money.vaultLevel){
             case 1:
                 value=5;
                 animator.SetBool("bronze", true);
@@ -44,7 +51,8 @@ public class Coin : MonoBehaviour
                 animator.SetBool("diamond", true);
                 state="diamond";
                 break;
-        }
+            }   
+        }      
         mySpriteRenderer = GetComponent<SpriteRenderer>();
         StartCoroutine(Blink());
     }
