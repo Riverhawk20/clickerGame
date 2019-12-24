@@ -45,6 +45,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>     <Compile Include="Assets\Scripts\Attack.cs" />
+     <Compile Include="Assets\Scripts\BackgroundTransform.cs" />
      <Compile Include="Assets\Scripts\Coin.cs" />
      <Compile Include="Assets\Scripts\Jump.cs" />
      <Compile Include="Assets\Scripts\Money.cs" />
@@ -57,6 +58,7 @@
      <None Include="Assets\Art\Extra animations and enemies\Spritesheets\alienGreen.xml" />
      <None Include="Assets\Art\Base pack\Player\p2_spritesheet.txt" />
      <None Include="Assets\Art\Extra animations and enemies\Spritesheets\alienBeige.xml" />
+     <None Include="Assets\SpriteOutline\Shaders\SpriteOutline.shader" />
      <None Include="Assets\Art\Extra animations and enemies\Spritesheets\alienBlue.xml" />
      <None Include="Assets\Art\Base pack\Player\p3_spritesheet.txt" />
      <None Include="Assets\Art\Base pack\Tiles\tiles\tiles_spritesheet.xml" />

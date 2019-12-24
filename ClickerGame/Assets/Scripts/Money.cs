@@ -11,6 +11,11 @@ public class Money : MonoBehaviour
     public Button VaultUpgrade;
     public Button LuckyChanceUpgrade;
     public Button LuckyValueUpgrade;
+    public Button CoinChanceUpgrade;
+    public double CoinChanceUpgradeCost;
+    //Random numbers adds up to 88
+    public int[] coinChanceUgradeAmount = {17, 10, 8, 6, 12, 10, 9, 12};
+    int coinChanceUgradeAmountIndex;
     public double luckyChanceUpgradeCost;
     public double swordUpgradeCost;
     public double swordUpgradeCPH;
@@ -38,13 +43,16 @@ public class Money : MonoBehaviour
         VaultUpgrade.onClick.AddListener(VaultUpgradeOnClick);
         LuckyChanceUpgrade.onClick.AddListener(LuckyChanceOnClick);
         LuckyValueUpgrade.onClick.AddListener(LuckyValueOnClick);
-        coinChance = 50;
+        CoinChanceUpgrade.onClick.AddListener(CoinChanceOnClick);
+        coinChance = 16;
         vaultLevel = 1;
         vaultUpgradeCost=10;
-        luckyValue= 500;
-        luckyChance = 50 ;
+        luckyValue= 5000;
+        luckyChance = 5;
         luckyChanceUpgradeCost = 50;
         luckyValueUpgradeCost = 50;
+        CoinChanceUpgradeCost = 10;
+        coinChanceUgradeAmountIndex=0;
         vaultText = "Upgrade Vault $" + vaultUpgradeCost;
     }
     void Update()
@@ -76,6 +84,11 @@ public class Money : MonoBehaviour
         dispUnit=numFormat(luckyValueUpgradeCost, temp);
         displayCash=numFormatNum(luckyValueUpgradeCost, temp);
         LuckyValueUpgrade.GetComponentInChildren<Text>().text = "Double Lucky Coin Value $" + displayCash.ToString("F3") + dispUnit; 
+
+        temp=CoinChanceUpgradeCost;
+        dispUnit=numFormat(CoinChanceUpgradeCost, temp);
+        displayCash=numFormatNum(CoinChanceUpgradeCost, temp);
+        CoinChanceUpgrade.GetComponentInChildren<Text>().text = "Coin Chance +" + coinChanceUgradeAmount[coinChanceUgradeAmountIndex] + "% $"+ displayCash.ToString("F3") + dispUnit;
 
     }
     string numFormat(double num, double disp){
@@ -154,4 +167,16 @@ public class Money : MonoBehaviour
             luckyValue *= 2;
         }
     }
+    void CoinChanceOnClick(){
+        if(cash >= CoinChanceUpgradeCost && coinChanceUgradeAmountIndex!=8){
+            cash-= CoinChanceUpgradeCost;
+            CoinChanceUpgradeCost *= 2;
+            coinChance+= coinChanceUgradeAmount[coinChanceUgradeAmountIndex];
+            coinChanceUgradeAmountIndex++;
+            if(coinChanceUgradeAmountIndex==8){
+                CoinChanceUpgrade.GetComponentInChildren<Text>().text = "Completed (Coin Chance)";
+            }
+        }
+    }
+    
 }
