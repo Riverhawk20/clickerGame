@@ -35,7 +35,7 @@ public class Attack : MonoBehaviour
             animator.SetBool("isAttacking", false);
         }
         if ( animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && 
-        (  (Vector2.Distance(player.transform.position, vault.transform.position)< 2.35f)
+        ( animator.GetBool("grounded") && (Vector2.Distance(player.transform.position, vault.transform.position)< 2.35f)
         &&  ( (!mySpriteRenderer.flipX && player.transform.position.x < vault.transform.position.x  ) || (mySpriteRenderer.flipX && player.transform.position.x > vault.transform.position.x ) )    )
         )
             {

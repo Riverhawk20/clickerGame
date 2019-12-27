@@ -35,13 +35,19 @@ public class Movement : MonoBehaviour
         if(moveHorizontral<0){
             mySpriteRenderer.flipX = true;
             animator.SetBool("running", true);
+            Jump.State="running";
         }
         else if(moveHorizontral>0){
             mySpriteRenderer.flipX = false;
             animator.SetBool("running", true);
+            Jump.State="running";
         }
         else{
             animator.SetBool("running", false);
+            //v.x and v.y is 0 the state is idle
+            if(v.y==0){
+               // Jump.State = "Idle";
+            }
             if(v.x>=1){
                 v.x--;
             }

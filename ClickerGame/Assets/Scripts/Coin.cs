@@ -10,15 +10,21 @@ public class Coin : MonoBehaviour
     float spawnTime;
     private SpriteRenderer mySpriteRenderer;
     public string state;
+    public bool inMagnet;
+    bool hitGround;
     Animator animator;
     Collider2D col2D;
+    
 
     void Start()
     {
+        inMagnet=false;
         spawnTime = Time.time;
+        hitGround=false;
         rb2d = GetComponent<Rigidbody2D> ();
         animator = GetComponent<Animator>();
         col2D = GetComponent<Collider2D>();
+        
         int xDirection=-1;
         if(Random.Range(0.0f,10.0f)>5){
             xDirection=1;
@@ -55,16 +61,23 @@ public class Coin : MonoBehaviour
         }      
         mySpriteRenderer = GetComponent<SpriteRenderer>();
         StartCoroutine(Blink());
+        
     }
     void OnEnable(){
         animator.SetBool(state, true);
     }
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if(Time.time - spawnTime >= 7.0){
             Destroy(gameObject);
         }
+        if (inMagnet && hitGround){
+            Vector2 direction = (transform.position - GameObject.Find("Player").transform.position).normalized;
+            float travelSpeed = 8.0f;
+            rb2d.velocity = -direction * travelSpeed;
+        }
+        
     }
     IEnumerator Blink (){
         yield return new WaitForSeconds(4.0f);
@@ -81,5 +94,21 @@ public class Coin : MonoBehaviour
             Destroy(gameObject);
             Money.cash += value;
         }
+        if (col.gameObject.tag == "Ground"){
+            hitGround = true;
+        }
+    }
+    void OnTriggerExit2D(Collider2D col){
+        if (col.gameObject.tag == "Magnet"){
+            inMagnet=false;
+            if (hitGround) rb2d.velocity = Vector2.zero;
+        }
+    }
+    void OnTriggerEnter2D(Collider2D col){
+        print (col.gameObject.tag);
+        if(col.gameObject.tag == "Magnet"){
+            inMagnet=true;
+        }
+        else inMagnet=false;
     }
 }
