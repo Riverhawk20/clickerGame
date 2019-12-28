@@ -57,10 +57,12 @@ public class Money : MonoBehaviour
         magnetCollider.enabled=false;
         CPH=1;
         CPJ=1;
-        CPJUpgradeAmount=9;
-        CPJUpgradeCost=5;
-        swordUpgradeCost=40;
-        swordUpgradeCPH=1;
+        CPJUpgradeAmount=1/10.0f;
+        CPJUpgradeCost=20;
+        swordUpgradeCost=50;
+        swordUpgradeCPH=1/8.0f;
+        jumpLevel=1;
+        swordLevel = 1;
         SwordUpgrade.onClick.AddListener(SwordUpgradeOnClick);
         VaultUpgrade.onClick.AddListener(VaultUpgradeOnClick);
         LuckyChanceUpgrade.onClick.AddListener(LuckyChanceOnClick);
@@ -76,7 +78,7 @@ public class Money : MonoBehaviour
         vaultLevel = 1;
         vaultUpgradeCost=10;
         luckyValue= 5000;
-        luckyChance = 5;
+        luckyChance = 4;
         luckyChanceUpgradeCost = 50;
         luckyValueUpgradeCost = 50;
         CoinChanceUpgradeCost = 10;
@@ -96,7 +98,7 @@ public class Money : MonoBehaviour
         temp=swordUpgradeCost;
         dispUnit=numFormat(swordUpgradeCost, temp);
         displayCash=numFormatNum(swordUpgradeCost, temp);
-        SwordUpgrade.GetComponentInChildren<Text>().text= "Sharper Sword $" + displayCash.ToString("F3") + dispUnit;
+        SwordUpgrade.GetComponentInChildren<Text>().text= "+$" + swordUpgradeCPH.ToString("F3")+ " per hit $" + displayCash.ToString("F3") + dispUnit;
 
         VaultUpgrade.GetComponentInChildren<Text>().text= vaultText;
 
@@ -183,10 +185,11 @@ public class Money : MonoBehaviour
     void SwordUpgradeOnClick(){
         if(cash >= swordUpgradeCost){
             cash -= swordUpgradeCost;
-            CPH +=  swordUpgradeCPH;
-            swordUpgradeCost *= Mathf.Pow(1.2f, swordLevel);
+            CPH =  1/8.0f*(swordLevel) + 1;
+            //price = base cost * multipMathf.Pow(1.04f, swordLevel)lier^level
+            swordUpgradeCost =  40* Mathf.Pow(1.06f,swordLevel);
             swordLevel++;
-            swordUpgradeCPH *= 2; 
+            // swordUpgradeCPH = ((swordLevel/5 + 1)*(1*swordLevel) + 1) - (((swordLevel-1)/5 + 1)*(1*(swordLevel)-1) + 1); 
         }
     }
     void VaultUpgradeOnClick(){
@@ -254,12 +257,11 @@ public class Money : MonoBehaviour
 
     void CPJUpgradeOnClick(){
         if(cash >= CPJUpgradeCost){
-            //this needs fixing
             cash-=CPJUpgradeCost;
-            CPJ = 10 * jumpLevel * (jumpLevel/5 + 1);
-            CPJUpgradeCost*=Mathf.Pow(1.15f, jumpLevel);
+            CPJ =  1/10.0f*(jumpLevel) + 1;
+            CPJUpgradeCost =  20* Mathf.Pow(1.097f,jumpLevel);
             jumpLevel++;  
-            CPJUpgradeAmount = 20 * (jumpLevel/5+1);
+            CPJUpgradeAmount = 1/10.0f;
         }
     }
     void AutoUpgradeOnClick(){
