@@ -14,7 +14,7 @@ public class Coin : MonoBehaviour
     bool hitGround;
     Animator animator;
     Collider2D col2D;
-    
+    Vector2 v;
 
     void Start()
     {
@@ -40,17 +40,17 @@ public class Coin : MonoBehaviour
         else{
             switch (Money.vaultLevel){
             case 1:
-                value=5;
+                value=10;
                 animator.SetBool("bronze", true);
                 state="bronze";
                 break;
             case 2:
-                value=10;
+                value=1000;
                 animator.SetBool("silver", true);
                 state="silver";
                 break;
             case 3:
-                value=25;
+                value=50000;
                 break;
             case 4:
                 value=50;
@@ -65,10 +65,12 @@ public class Coin : MonoBehaviour
     }
     void OnEnable(){
         animator.SetBool(state, true);
+        if(v!= null) rb2d.velocity = v;
     }
     // Update is called once per frame
     void FixedUpdate()
     {
+        v = rb2d.velocity;
         if(Time.time - spawnTime >= 7.0){
             Destroy(gameObject);
         }

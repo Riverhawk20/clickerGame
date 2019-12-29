@@ -1,16 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Shop_Buttons : MonoBehaviour
 {
     public GameObject ShopPanel;
     public GameObject GamePanel;
+    public GameObject SettingsPanel;
+    public Button SoundSetting;
+    public bool sound;
     // Start is called before the first frame update
     void Start()
     {
         ShopPanel.SetActive(false);
         GamePanel.SetActive(true);
+        SettingsPanel.SetActive(false);
+        sound=true;
     }
 
     // Update is called once per frame
@@ -21,5 +27,22 @@ public class Shop_Buttons : MonoBehaviour
      public void closeShopPanel(){
             ShopPanel.SetActive(false);
             GamePanel.SetActive(true);
+    }
+    public void openSettingsPanel(){
+        GamePanel.SetActive(false);
+        SettingsPanel.SetActive(true);
+    }
+    public void closeSettingsPanel(){
+        GamePanel.SetActive(true);
+        SettingsPanel.SetActive(false);
+    }
+    public void toggleSound(){
+        sound = !sound;
+        if(sound){
+            SoundSetting.GetComponent<Image>().color = Color.green;
+        }
+        else{
+            SoundSetting.GetComponent<Image>().color = Color.red;
+        }
     }
 }
