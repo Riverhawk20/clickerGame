@@ -13,6 +13,9 @@ public class Movement : MonoBehaviour
     Animator animator;
     public int maxV = 8;
     Vector2 oldV;
+    float moveHorizontral;
+    //1 for right -1 for left
+    int direction;
 
 
     
@@ -28,8 +31,20 @@ public class Movement : MonoBehaviour
     //physics
     void FixedUpdate()
     {
+        //#if UNITY_IOS || UNITY_ANDROID
+        if(direction==1){
+            moveHorizontral+= Time.deltaTime*5.5f;
+            if (moveHorizontral>=1) moveHorizontral=1;
+        }
+        else if (direction==-1){
+            moveHorizontral-=Time.deltaTime*5.5f;
+            if (moveHorizontral<=-1) moveHorizontral=-1;
+        }
+        /*
+        #else
         //store current horizontal  input 
-        float moveHorizontral = Input.GetAxis("Horizontal");
+        moveHorizontral = Input.GetAxis("Horizontal");
+        #endif*/
         //create movement vector
         Vector2 movement = new Vector2 (moveHorizontral,0);
         Vector2 v= rb2d.velocity;
@@ -73,6 +88,7 @@ public class Movement : MonoBehaviour
                 Vector2 jumpMultiplier = new Vector2((float) .5 ,1);
                 rb2d.AddForce(movement*speed*jumpMultiplier);        
             }
+            //this is where force is added from pressing left or right
             else{
                 rb2d.AddForce(movement*speed);        
             }
@@ -98,5 +114,15 @@ public class Movement : MonoBehaviour
             rb2d.velocity=oldV;
         }
       
+    }
+    public void mobileRight(){
+        direction=1;
+    }
+    public void mobileLeft(){
+        direction=-1;
+    }
+    public void releaseMobileButton(){
+        moveHorizontral=0;
+        direction=0;
     }
 }

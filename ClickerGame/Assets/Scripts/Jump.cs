@@ -5,7 +5,7 @@ using UnityEngine;
 public class Jump : MonoBehaviour
 {
     public float jumpHeight;
-     bool isJumping = false;
+    public static bool isJumping = false;
     private Rigidbody2D rb2d;
     public Collider2D player;
     public Collider2D ground;
@@ -15,6 +15,7 @@ public class Jump : MonoBehaviour
     bool[] playerStates={false,true,false};
     public static string State;
     Vector2 v;
+    public static bool mobileJump=false;
 
     void Start()
     {
@@ -50,7 +51,7 @@ public class Jump : MonoBehaviour
             rb2d.velocity=v;
             State="inAir";
         }
-        if ((Input.GetKeyDown("space")||Input.GetKeyDown("w") || Input.GetKeyDown("up"))&&!isJumping && animator.GetBool("grounded") ) 
+        if ((Input.GetKeyDown("space")||Input.GetKeyDown("w") || Input.GetKeyDown("up")|| mobileJump)&&!isJumping && animator.GetBool("grounded") ) 
         {
             isJumping=true;
             animator.SetBool("jumping", true);
@@ -61,6 +62,7 @@ public class Jump : MonoBehaviour
             rb2d.AddForce(Vector2.up*jumpHeight);
             animator.SetBool("onVault", false);
             State="jumpUp";
+            mobileJump=false;
         }
 
 
@@ -68,7 +70,6 @@ public class Jump : MonoBehaviour
             animator.SetBool("falling", true);   
             State="falling";     
         }
-     
     }
 
     void OnCollisionEnter2D (Collision2D col)  
@@ -100,5 +101,8 @@ public class Jump : MonoBehaviour
         animator.SetBool("grounded", playerStates[1]);
         animator.SetBool("onVault", playerStates[2]);
         animator.Play(State, -1 , 0f);
+    }
+    public void mobileJumpPress(){
+       if (!isJumping && animator.GetBool("grounded")) mobileJump=true;
     }
 }

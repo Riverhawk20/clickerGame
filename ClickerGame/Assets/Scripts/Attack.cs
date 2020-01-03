@@ -11,13 +11,13 @@ public class Attack : MonoBehaviour
     [SerializeField] GameObject vault;
     [SerializeField] GameObject Coin;
     private SpriteRenderer mySpriteRenderer;
-
-
+    public bool mobileAttack;
     float attackStart;
     void Start()
     {
         animator= GetComponent<Animator>();
         mySpriteRenderer = GetComponent<SpriteRenderer>();
+        mobileAttack=false;
 
     }
     void Awake(){
@@ -26,7 +26,7 @@ public class Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0)){
+        if((mobileAttack)){
             if(!animator.GetBool("isAttacking")){
                 animator.SetBool("isAttacking", true);
             }
@@ -34,7 +34,8 @@ public class Attack : MonoBehaviour
         else {
             animator.SetBool("isAttacking", false);
         }
-        if ( animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && 
+        if(animator.GetBool("isAttacking")) mobileAttack=false;
+        if ( animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") &&
         ( animator.GetBool("grounded") && (Vector2.Distance(player.transform.position, vault.transform.position)< 2.35f)
         &&  ( (!mySpriteRenderer.flipX && player.transform.position.x < vault.transform.position.x  ) || (mySpriteRenderer.flipX && player.transform.position.x > vault.transform.position.x ) )    )
         )
@@ -48,6 +49,9 @@ public class Attack : MonoBehaviour
                 }
             }
         }
+    }
+    public void MobileAttackButtonPress(){
+        mobileAttack=true;
     }
   
         

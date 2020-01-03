@@ -15,20 +15,20 @@ public class Money : MonoBehaviour
     public Button MagnetUpgrade;
     public Button CPJUpgrade;
     public Button AutoUpgrade;
-    public double APS;
-    double autoUpgradeCost;
-    double autoUpgradeAmount;
+    public double APS=0;
+    public double autoUpgradeCost;
+    public double autoUpgradeAmount;
     double[] CoinChanceUpgradeCost ={50, 500, 3000, 10000, 40000, 200000, 1000000, 8000000, 50000000};
     //Starts at 10 peaks at 33
     int[] coinChanceUgradeAmount = {3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1}; //13 upgrades
-    int coinChanceUgradeAmountIndex;
+    public int coinChanceUgradeAmountIndex=0;
     //start at 4 end at 10 (+0.5%) so 12 upgrades
     double[] luckyChanceUpgradeCost = {60, 400, 2000,12000, 10000*4, 4*40000,200000*4, 4*1666666,4*123456789, 4.0f*3999999999, 4.0f*75000000000, 4.0f * 100000000000};
-    int luckyChanceIndex;
-    double swordUpgradeCost;
-    double swordUpgradeCPH;
+    public int luckyChanceIndex=0;
+    public double swordUpgradeCost;
+    public double swordUpgradeCPH;
     double[] vaultUpgradeCost = {500000, 10000000, 1000000000};
-    string vaultText;
+    public string vaultText;
     public static double cash;
     //cash per hit
     public static double CPH;
@@ -40,28 +40,28 @@ public class Money : MonoBehaviour
     double[] luckyValueUpgradeCost = {60, 400, 2000,12000, 10000*4, 4*40000,200000*4, 4*1666666,4*123456789, 4.0f*3999999999, 4.0f*75000000000, 4.0f * 100000000000};
     //intialized in start to 500 length 10
     double[] luckyValueUpgradeAmount = {100/10f,500/10f,3000/10f,10000/15f,40000/15f,200000/20f,1666666/20f,123456789/20f, 3999999999/20f, 75000000000/20f};
-    int luckyValueIndex;
+    public int luckyValueIndex=0;
     public double displayCash;
     public string dispUnit;
     string dispUnit2;
     double dispCash2;
     double[] magnetUpgradeCost = {100, 500, 1500, 3000, 7000, 10000, 30000, 40000, 100000, 200000, 500000, 10000000, 50000000, 123456789, 100000000, 1000000000, 3999999999};
-    int magnetIndex;
-    float magnetRadius;
+    public int magnetIndex=0;
+    public float magnetRadius;
     public static double CPJ;
-    double CPJUpgradeCost;
-    double CPJUpgradeAmount;
+    public double CPJUpgradeCost;
+    public double CPJUpgradeAmount;
     double temp;
     double temp2;
-    int swordLevel;
-    int jumpLevel;
+    public int swordLevel;
+    public int jumpLevel;
     double[] baseCostAuto = {15,100,500,3000,10000,40000,200000,1666666,123456789, 3999999999, 75000000000};
     double[] rate= {0.1,0.5,4,10,40,100,400,6666,98765,999999, 10000000};
-    int autoIndex=0;
-    int autoOwned=0;
+    public int autoIndex=0;
+    public int autoOwned=0;
     //font makes this all automatically uppercase
     string[] units = {"K","M","B","T","aa","bb","cc","dd","ee","ff","gg","gg","ii","jj","kk","ll","mm","nn","oo","pp","qq","rr","ss","tt","uu","vv","ww","xx","yy","zz"}; 
-    CircleCollider2D magnetCollider;
+    public CircleCollider2D magnetCollider;
     public GameObject Player;
     public Text PerHitText;
     public Text PerSecondText;
@@ -71,8 +71,40 @@ public class Money : MonoBehaviour
     public Text LuckyChanceText;
     public Text MagnetText;
     public Text VaultLevelText;
-    void Start(){
-        magnetCollider = Player.transform.GetChild(0).GetComponent<CircleCollider2D>();
+    public void SaveData(){
+        SaveSystem.SaveMoney(this);
+    }
+    public void LoadMoneyData(){
+      SaveData data = SaveSystem.LoadData();
+      if(data != null){
+        gameObject.GetComponent<Shop_Buttons>().sound = data.PlayMusic;
+        gameObject.GetComponent<Shop_Buttons>().volumeSlider.value = data.Volume;
+        vaultLevel = data.VaultLevel;
+        CPJUpgradeCost = data.CoinsPerJumpUpgradeCost;
+        CPJUpgradeAmount = data.CoinsPerJumpUpgradeAmount;
+        CPJ = data.CoinsPerJump;
+        jumpLevel = data.JumpLevel;
+        magnetCollider.enabled = data.MagnetEnabled;
+        magnetRadius = data.MagnetRadius;
+        magnetIndex = data.MagnetIndex;
+        APS = data.AutoPerSecond;
+        autoUpgradeCost = data.AutoCost;
+        autoUpgradeAmount = data.AutoUpgradeAmount;
+        autoIndex = data.AutoIndex;
+        autoOwned = data.AutoOwned;
+        coinChance = data.CoinChance;
+        coinChanceUgradeAmountIndex = data.CoinChanceUpgradeAmountIndex;
+        CPH = data.CoinsPerHit;
+        swordUpgradeCPH = data.SwordUpgradeAmountCPH;
+        swordUpgradeCost = data.SwordUpgradeCost;
+        swordLevel = data.SwordLevel;
+        luckyValue = data.LuckyValue;
+        luckyValueIndex = data.LuckyValueIndex;
+        luckyChance= data.LuckyChance;
+        luckyChanceIndex =data.LuckyChanceIndex;
+        cash = data.Cash;
+      }
+      else{
         magnetCollider.enabled=false;
         CPH=1;
         CPJ=1;
@@ -82,14 +114,6 @@ public class Money : MonoBehaviour
         swordUpgradeCPH=1/8.0f;
         jumpLevel=1;
         swordLevel = 1;
-        SwordUpgrade.onClick.AddListener(SwordUpgradeOnClick);
-        VaultUpgrade.onClick.AddListener(VaultUpgradeOnClick);
-        LuckyChanceUpgrade.onClick.AddListener(LuckyChanceOnClick);
-        LuckyValueUpgrade.onClick.AddListener(LuckyValueOnClick);
-        CoinChanceUpgrade.onClick.AddListener(CoinChanceOnClick);
-        MagnetUpgrade.onClick.AddListener(MagnetUpgradeOnClick);
-        CPJUpgrade.onClick.AddListener(CPJUpgradeOnClick);
-        AutoUpgrade.onClick.AddListener(AutoUpgradeOnClick);
         APS=0;
         autoUpgradeAmount = rate[0];
         autoUpgradeCost=baseCostAuto[0];
@@ -102,12 +126,30 @@ public class Money : MonoBehaviour
         coinChanceUgradeAmountIndex=0;
         magnetRadius=0;
         magnetIndex=0;
+      }
+
+    }
+    void Awake(){
+        magnetCollider = Player.transform.GetChild(0).GetComponent<CircleCollider2D>();
+    }
+    void Start(){
+        LoadMoneyData();
 
         temp=vaultUpgradeCost[vaultLevel-1];
         dispUnit=numFormat(vaultUpgradeCost[vaultLevel-1], temp);
         displayCash=numFormatNum(vaultUpgradeCost[vaultLevel-1], temp);
         vaultText = "Upgrade Vault $" + displayCash.ToString("F3") + dispUnit;
+
         InvokeRepeating("oncePerSecond", 0 , 1.0f);
+        InvokeRepeating("SaveData", 0, 30.0f);
+        SwordUpgrade.onClick.AddListener(SwordUpgradeOnClick);
+        VaultUpgrade.onClick.AddListener(VaultUpgradeOnClick);
+        LuckyChanceUpgrade.onClick.AddListener(LuckyChanceOnClick);
+        LuckyValueUpgrade.onClick.AddListener(LuckyValueOnClick);
+        CoinChanceUpgrade.onClick.AddListener(CoinChanceOnClick);
+        MagnetUpgrade.onClick.AddListener(MagnetUpgradeOnClick);
+        CPJUpgrade.onClick.AddListener(CPJUpgradeOnClick);
+        AutoUpgrade.onClick.AddListener(AutoUpgradeOnClick);
         
     }
     void Update()
@@ -329,6 +371,7 @@ public class Money : MonoBehaviour
             APS += rate[autoIndex];
             if(autoUpgradeCost>= baseCostAuto[autoIndex+1]){
                 autoIndex++;
+                autoOwned=0;
             }
             autoUpgradeAmount = rate[autoIndex];
 
