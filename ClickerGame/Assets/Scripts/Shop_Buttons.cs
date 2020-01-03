@@ -10,6 +10,8 @@ public class Shop_Buttons : MonoBehaviour
     public GameObject SettingsPanel;
     public Button SoundSetting;
     public bool sound;
+    public AudioSource playMusic;
+    public Slider volumeSlider;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +19,14 @@ public class Shop_Buttons : MonoBehaviour
         GamePanel.SetActive(true);
         SettingsPanel.SetActive(false);
         sound=true;
+        if (sound){
+            playMusic.Play(0);
+        }
+        else{
+            playMusic.Pause();
+        }
+        volumeSlider.value= playMusic.volume;
+    
     }
 
     // Update is called once per frame
@@ -44,5 +54,14 @@ public class Shop_Buttons : MonoBehaviour
         else{
             SoundSetting.GetComponent<Image>().color = Color.red;
         }
+        if (sound){
+            playMusic.Play(0);
+        }
+        else{
+            playMusic.Stop();
+        }
+    }
+    public void VolumeControl (){
+        playMusic.volume = volumeSlider.value;
     }
 }

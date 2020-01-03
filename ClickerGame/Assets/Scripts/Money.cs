@@ -45,7 +45,7 @@ public class Money : MonoBehaviour
     public string dispUnit;
     string dispUnit2;
     double dispCash2;
-    double[] magnetUpgradeCost = {1,1,1};
+    double[] magnetUpgradeCost = {100, 500, 1500, 3000, 7000, 10000, 30000, 40000, 100000, 200000, 500000, 10000000, 50000000, 123456789, 100000000, 1000000000, 3999999999};
     int magnetIndex;
     float magnetRadius;
     public static double CPJ;
@@ -63,6 +63,14 @@ public class Money : MonoBehaviour
     string[] units = {"K","M","B","T","aa","bb","cc","dd","ee","ff","gg","gg","ii","jj","kk","ll","mm","nn","oo","pp","qq","rr","ss","tt","uu","vv","ww","xx","yy","zz"}; 
     CircleCollider2D magnetCollider;
     public GameObject Player;
+    public Text PerHitText;
+    public Text PerSecondText;
+    public Text PerJumpText;
+    public Text CoinChanceText;
+    public Text LuckyValueText;
+    public Text LuckyChanceText;
+    public Text MagnetText;
+    public Text VaultLevelText;
     void Start(){
         magnetCollider = Player.transform.GetChild(0).GetComponent<CircleCollider2D>();
         magnetCollider.enabled=false;
@@ -100,7 +108,7 @@ public class Money : MonoBehaviour
         displayCash=numFormatNum(vaultUpgradeCost[vaultLevel-1], temp);
         vaultText = "Upgrade Vault $" + displayCash.ToString("F3") + dispUnit;
         InvokeRepeating("oncePerSecond", 0 , 1.0f);
-        print("end");
+        
     }
     void Update()
     {   displayCash=cash;
@@ -112,35 +120,63 @@ public class Money : MonoBehaviour
         temp=swordUpgradeCost;
         dispUnit=numFormat(swordUpgradeCost, temp);
         displayCash=numFormatNum(swordUpgradeCost, temp);
-        SwordUpgrade.GetComponentInChildren<Text>().text= "+$" + swordUpgradeCPH.ToString("F3")+ " per hit $" + displayCash.ToString("F3") + dispUnit;
+        temp2=swordUpgradeCPH;
+        dispUnit2=numFormat(swordUpgradeCPH, temp2);
+        dispCash2 = numFormatNum(swordUpgradeCPH, temp2);
+        SwordUpgrade.GetComponentInChildren<Text>().text= "+$" + dispCash2.ToString("F3")+ dispUnit2+ " per hit $" + displayCash.ToString("F3") + dispUnit;
+        //stats text
+        temp=CPH;
+        dispUnit=numFormat(CPH, temp);
+        displayCash=numFormatNum(CPH, temp);
+        PerHitText.text = "Per Hit: $" + displayCash.ToString("F3") + dispUnit;
 
         VaultUpgrade.GetComponentInChildren<Text>().text= vaultText;
+        VaultLevelText.text = "Vault Level: " + vaultLevel.ToString();
 
         temp=luckyChanceUpgradeCost[luckyChanceIndex];
         dispUnit=numFormat(luckyChanceUpgradeCost[luckyChanceIndex], temp);
         displayCash=numFormatNum(luckyChanceUpgradeCost[luckyChanceIndex], temp);
         if (luckyChanceIndex!=12) LuckyChanceUpgrade.GetComponentInChildren<Text>().text = "Lucky Coin Chance +0.5% $" + displayCash.ToString("F3") + dispUnit; 
+        temp=luckyChance;
+        dispUnit=numFormat(luckyChance, temp);
+        displayCash=numFormatNum(luckyChance, temp);
+        LuckyChanceText.text = "Lucky Coin Chance: " + displayCash + dispUnit+ "%";
 
         temp=luckyValueUpgradeCost[luckyValueIndex];
         dispUnit=numFormat(luckyValueUpgradeCost[luckyValueIndex], temp);
         displayCash=numFormatNum(luckyValueUpgradeCost[luckyValueIndex], temp);
-        if (luckyValueIndex!=10) LuckyValueUpgrade.GetComponentInChildren<Text>().text = "Double Lucky Coin Value $" + displayCash.ToString("F3") + dispUnit; 
+        temp=luckyValueUpgradeAmount[luckyValueIndex];
+        dispUnit2=numFormat(luckyValueUpgradeAmount[luckyValueIndex], temp);
+        dispCash2=numFormatNum(luckyValueUpgradeAmount[luckyValueIndex], temp);
+        if (luckyValueIndex!=10) LuckyValueUpgrade.GetComponentInChildren<Text>().text = "Lucky Coin Value +$" + dispCash2+ dispUnit2+ " $" + displayCash.ToString("F3") + dispUnit; 
+        temp=luckyValue;
+        dispUnit=numFormat(luckyValue, temp);
+        displayCash=numFormatNum(luckyValue, temp);
+        LuckyValueText.text = "Lucky Coin: $" + displayCash + dispUnit;
 
         temp=CoinChanceUpgradeCost[coinChanceUgradeAmountIndex];
         dispUnit=numFormat(CoinChanceUpgradeCost[coinChanceUgradeAmountIndex], temp);
         displayCash=numFormatNum(CoinChanceUpgradeCost[coinChanceUgradeAmountIndex], temp);
         if(coinChanceUgradeAmountIndex!=CoinChanceUpgradeCost.Length) CoinChanceUpgrade.GetComponentInChildren<Text>().text = "Coin Chance +" + coinChanceUgradeAmount[coinChanceUgradeAmountIndex] + "% $"+ displayCash.ToString("F3") + dispUnit;
-        
+        temp=coinChance;
+        dispUnit=numFormat(coinChance, temp);
+        displayCash=numFormatNum(coinChance, temp);
+        CoinChanceText.text = "Coin Chance: " + displayCash + dispUnit + "%";
 
-        temp=magnetUpgradeCost[magnetIndex];
-        dispUnit=numFormat(magnetUpgradeCost[magnetIndex], temp);
-        displayCash=numFormatNum(magnetUpgradeCost[magnetIndex], temp);
+        
         if(magnetRadius==0){
+            temp=magnetUpgradeCost[magnetIndex];
+            dispUnit=numFormat(magnetUpgradeCost[magnetIndex], temp);
+            displayCash=numFormatNum(magnetUpgradeCost[magnetIndex], temp);
             MagnetUpgrade.GetComponentInChildren<Text>().text = "Enable Magnet $" + displayCash.ToString("F3") + dispUnit;
         }
         else if(magnetRadius!=10){
+            temp=magnetUpgradeCost[magnetIndex];
+            dispUnit=numFormat(magnetUpgradeCost[magnetIndex], temp);
+            displayCash=numFormatNum(magnetUpgradeCost[magnetIndex], temp);
             MagnetUpgrade.GetComponentInChildren<Text>().text = "Magnet Radius +0.5 $" + displayCash.ToString("F3") + dispUnit;
         }
+        MagnetText.text= "Magnet Radius: " + magnetRadius + " tiles";
 
         temp=CPJUpgradeCost;
         dispUnit=numFormat(CPJUpgradeCost, temp);
@@ -149,6 +185,10 @@ public class Money : MonoBehaviour
         dispUnit2=numFormat(CPJUpgradeAmount, temp2);
         dispCash2 = numFormatNum(CPJUpgradeAmount, temp2);     
         CPJUpgrade.GetComponentInChildren<Text>().text= "+$" + dispCash2.ToString("F3") + dispUnit2  + " per Jump $" + displayCash.ToString("F3") + dispUnit;
+        temp=CPJ;
+        dispUnit=numFormat(CPJ, temp);
+        displayCash=numFormatNum(CPJ, temp);
+        PerJumpText.text = "Per Jump: $" + displayCash.ToString("F3") + dispUnit;
         
         temp=autoUpgradeCost;
         dispUnit=numFormat(autoUpgradeCost, temp);
@@ -157,7 +197,10 @@ public class Money : MonoBehaviour
         dispUnit2=numFormat(autoUpgradeAmount, temp2);
         dispCash2 = numFormatNum(autoUpgradeAmount, temp2);     
         AutoUpgrade.GetComponentInChildren<Text>().text= "+$" + dispCash2.ToString("F3") + dispUnit2  + " per Second $" + displayCash.ToString("F3") + dispUnit;
-
+        temp=APS;
+        dispUnit=numFormat(APS, temp);
+        displayCash=numFormatNum(APS, temp);
+        PerSecondText.text = "Auto Per Second: $" + displayCash + dispUnit;
     }
     void oncePerSecond(){
         Money.cash += APS;

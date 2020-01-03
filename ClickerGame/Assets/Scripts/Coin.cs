@@ -29,7 +29,7 @@ public class Coin : MonoBehaviour
         if(Random.Range(0.0f,10.0f)>5){
             xDirection=1;
         }
-        Vector2 added = new Vector2(Random.Range(120,240)*xDirection,Random.Range(120,240));
+        Vector2 added = new Vector2(Random.Range(170,310)*xDirection,Random.Range(120,240));
         rb2d.AddForce(added);
         //If lucky Coin
         if(Random.Range(1,100) <= Money.luckyChance){

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Movement : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Movement : MonoBehaviour
     Animator animator;
     public int maxV = 8;
     Vector2 oldV;
+
 
     
     void Start()
@@ -76,8 +78,6 @@ public class Movement : MonoBehaviour
             }
         }
         oldV= rb2d.velocity;
-    
-        
         
     }
     void OnCollisionEnter2D (Collision2D col)

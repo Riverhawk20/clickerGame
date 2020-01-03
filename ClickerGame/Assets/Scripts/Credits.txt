@@ -1,0 +1,4 @@
+Music: https://jameshammondrf.bandcamp.com/album/video-game-inspired-songs-and-loops-batch-2
+TileSet: www.kenney.nl
+Player: https://rvros.itch.io/animated-pixel-hero
+Sound Effects: www.kenney.nl
